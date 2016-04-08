@@ -13,6 +13,9 @@ export default class Oneline extends React.Component {
     selectiveUpdate: React.PropTypes.bool,
     forceRaw: React.PropTypes.bool
   }
+  static contextTypes = {
+    events: React.PropTypes.object.isRequired
+  }
 
   constructor(props) {
     super(props)
@@ -22,7 +25,7 @@ export default class Oneline extends React.Component {
     if (this.props.onSelect)
       this.props.onSelect(this.props.msg)
     else
-      this.context.emit('open:msg', this.props.msg.key)
+      this.context.events.emit('open:msg', this.props.msg.key)
   }
 
   shouldComponentUpdate(nextProps, nextState) {

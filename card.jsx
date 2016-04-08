@@ -112,7 +112,7 @@ export default class Card extends React.Component {
   static contextTypes = {
     users: React.PropTypes.object.isRequired,
     user: React.PropTypes.object.isRequired,
-    emit: React.PropTypes.func.isRequired,
+    events: React.PropTypes.object.isRequired,
     ssb: React.PropTypes.object.isRequired
   }
 
@@ -140,7 +140,7 @@ export default class Card extends React.Component {
     if (this.props.onSelect)
       this.props.onSelect(this.props.msg)
     else
-      this.context.emit('open:msg', this.props.msg.key)
+      this.context.events.emit('open:msg', this.props.msg.key)
   }
 
   onToggleDataView(item) { 

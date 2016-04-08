@@ -18,7 +18,7 @@ export default class Notification extends React.Component {
   static contextTypes = {
     users: React.PropTypes.object.isRequired,
     user: React.PropTypes.object.isRequired,
-    emit: React.PropTypes.func.isRequired,
+    events: React.PropTypes.object.isRequired,
     ssb: React.PropTypes.object.isRequired
   }
 
@@ -71,7 +71,7 @@ export default class Notification extends React.Component {
   onSelect() {
     // get root msg
     var subject = this.state.subjectMsg || this.props.msg
-    this.context.emit('open:msg', subject.key)
+    this.context.events.emit('open:msg', subject.key)
   }
 
   render() {
