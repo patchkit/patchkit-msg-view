@@ -1,0 +1,67 @@
+{
+  "name": "patchkit-msg-view",
+  "version": "1.0.0",
+  "description": "Render individual SSB messages. Useful alone, or in msg-list/msg-thread",
+  "main": "index.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patchkit/patchkit-msg-view.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Paul Frazee <pfrazee@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/patchkit/patchkit-msg-view/issues"
+  },
+  "homepage": "https://github.com/patchkit/patchkit-msg-view#readme",
+  "dependencies": {
+    "classnames": "^2.2.3",
+    "image-loaded": "0.0.2",
+    "multicb": "^1.2.1",
+    "patchkit-dropdown": "^1.0.0",
+    "patchkit-form-flag-msg": "^1.0.0",
+    "patchkit-links": "^1.0.1",
+    "patchkit-markdown": "^1.0.1",
+    "patchkit-modal": "^1.1.0",
+    "patchkit-msg-content": "^1.0.0",
+    "patchkit-nicedate": "^1.0.0",
+    "patchwork-threads": "^2.2.0",
+    "react": "^0.14.6",
+    "react-clipboard.js": "^0.1.7",
+    "ssb-msgs": "^5.2.0",
+    "ssb-ref": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "envify",
+        {
+          "global": true
+        }
+      ],
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015",
+            "stage-0",
+            "react"
+          ]
+        }
+      ]
+    ]
+  }
+}
