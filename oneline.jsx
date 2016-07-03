@@ -4,6 +4,7 @@ import threadlib from 'patchwork-threads'
 import { UserLinks, UserPics } from 'patchkit-links'
 import NiceDate from 'patchkit-nicedate'
 import { Inline as Content } from 'patchkit-msg-content'
+import t from 'patchwork-translations'
 
 export default class Oneline extends React.Component {
   static propTypes = {
@@ -49,7 +50,7 @@ export default class Oneline extends React.Component {
           <span className="replies">{replies}</span>
         </div>
         <div className="content">
-          <span className="markdown markdown-inline">Missing message</span>
+          <span className="markdown markdown-inline">{t('msg.MissingMsg')}</span>
         </div>
       </div>
     }

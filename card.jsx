@@ -14,6 +14,7 @@ import FlagMsgForm from 'patchkit-form-flag-msg'
 import DropdownBtn from 'patchkit-dropdown'
 import u from 'patchkit-util'
 import social from 'patchkit-util/social'
+import t from 'patchwork-translations'
 
 const INLINE_LENGTH_LIMIT = 100
 const MAX_CONTENT_HEIGHT = 200 // px
@@ -39,8 +40,8 @@ class BookmarkBtn extends React.Component {
   }
   render() {
     const b = this.props.isBookmarked
-    const title = 'Bookmark'+(b?'ed':'')
-    const hint = (b?'Remove this message from your bookmarks':'Add this message to your bookmarks')
+    const title = t(b ? 'msg.Bookmarked' : 'msg.Bookmark')
+    const hint = (b?'msg.RemoveBookmark':'msg.AddBookmark')
     return <span>
       <a href='javascript:;' className={'hint--bottom save'+(b?' selected':'')} data-hint={hint} onClick={this.onClick.bind(this)} title={title}>
         <i className={'fa fa-bookmark'+(b?'':'-o')} />
@@ -65,9 +66,9 @@ class DigBtn extends React.Component {
   }
 
   render() {
-    let label = 'Dig this'
+    let label = t('msg.DigThis')
     if (this.props.upvoters.length)
-      label = 'Dug by '+this.props.upvoters.map(id => u.getName(this.context.users, id)).join(', ')
+      label = t('msg.DugBy', {name: this.props.upvoters.map(id => u.getName(this.context.users, id)).join(', ')})
     return <div className={'dig hint--top-left'+(this.props.isUpvoted?' highlighted':'')} onClick={this.onClick.bind(this)} data-hint={label}>
       <i className="fa fa-hand-peace-o" /> <span>{this.props.upvoters.length}</span>
     </div>
@@ -92,7 +93,7 @@ class AuthorAndVia extends React.Component {
     if (via && via.length === 0)
       via = false
     return <span className="author">
-      <UserLink id={author} /> { via ? <small>via <UserLinks ids={via} limit={1} /></small> : '' }
+      <UserLink id={author} /> { via ? <small>{t('msg.authorVia')} <UserLinks ids={via} limit={1} /></small> : '' }
     </span>
   }
 }
@@ -275,23 +276,23 @@ export default class Card extends React.Component {
     return <div key={msg.key} className={'msg-view card-missing-post'+(expanded?'':' collapsed')}>
       <div>
         <a onClick={this.onClickExpand.bind(this)} style={{ cursor: 'pointer', fontWeight: 'bold' }}>
-          <i className="fa fa-warning" /> Missing Post
+          <i className="fa fa-warning" /> {t('msg.MissingPost')}
         </a>
         { expanded ?
           <span>
             <br/><br/>
-            {'This post has not been downloaded. It may be authored by somebody outside of your network. Some of the other messages in this thread may reference it.'}
+            {t('msg.MissingPostInfo')}
             <br/><br/>
             <code>{msg.key}</code>
           </span> :
-          ' Missing post.' }
+          ' ' + t('msg.MissingPost2') }
       </div>
     </div>
   }
 
   renderLink(msg) {
     return <div key={msg.key} className="msg-view card-missing-post">
-      <div><i className="fa fa-angle-double-up" /> <MsgLink id={msg.key} name="View the full discussion" /></div>
+      <div><i className="fa fa-angle-double-up" /> <MsgLink id={msg.key} name={t('msg.ViewFull')}/></div>
     </div>
   }
 
@@ -300,7 +301,7 @@ export default class Card extends React.Component {
     return <div key={msg.key} className="msg-view card-mention">
       <div>
         <i className="fa fa-hand-o-right" />
-        <div><UserLink id={msg.value.author} /> referenced this thread in <MsgLink id={msg.key} name={name} /></div>
+        <div><UserLink id={msg.value.author} /> {t('msg.referencedIn')} <MsgLink id={msg.key} name={name} /></div>
       </div>
     </div>
   }
@@ -310,7 +311,7 @@ export default class Card extends React.Component {
     return <div className={'msg-view card-muted'}>
       <div className="ctrls"><UserPic id={msg.value.author} /></div>
       <div className="content">
-        <div><a onClick={this.onClickExpand.bind(this)}><MdInline limit={INLINE_LENGTH_LIMIT} md={text} /></a> <small>flagged</small></div>
+        <div><a onClick={this.onClickExpand.bind(this)}><MdInline limit={INLINE_LENGTH_LIMIT} md={text} /></a> <small>{t('msg.flagged')}</small></div>
         <div><NiceDate ts={msg.value.timestamp} /></div>
       </div>
     </div>
@@ -336,18 +337,18 @@ export default class Card extends React.Component {
       {
         value: 'copy-link',
         Com: props => <ClipboardBtn component='li' data-clipboard-text={msg.key} onSuccess={props.onClick}>
-          <i className="fa fa-external-link" /> Copy ID
+          <i className="fa fa-external-link" /> {t('msg.CopyID')}
         </ClipboardBtn>
         // onSelect: this.markShouldUpdate.bind(this)
       },
       { 
         value: 'toggle-raw',
-        label: <span><i className={isViewingRaw?'fa fa-envelope-o':'fa fa-gears'} /> View {isViewingRaw?'Msg':'Data'}</span>,
+        label: <span><i className={isViewingRaw?'fa fa-envelope-o':'fa fa-gears'} /> {t(isViewingRaw?'msg.ViewMsg':'msg.ViewData')}</span>,
         onSelect: this.onToggleDataView.bind(this)
       },
       (isDownvoted ?
-        { value: 'unflag', label: <span><i className="fa fa-times" /> Unflag</span>, onSelect: this.onUnflag.bind(this) } :
-        { value: 'flag',   label: <span><i className="fa fa-flag" /> Flag</span>,    onSelect: this.onFlag.bind(this) }
+        { value: 'unflag', label: <span><i className="fa fa-times" /> {t('msg.Unflag')}</span>, onSelect: this.onUnflag.bind(this) } :
+        { value: 'flag',   label: <span><i className="fa fa-flag" /> {t('msg.Flag')}</span>,    onSelect: this.onFlag.bind(this) }
       )
     ]
 
@@ -367,7 +368,7 @@ export default class Card extends React.Component {
             <div>
               <AuthorAndVia id={msg.value.author} />
               { isListView && rootLink
-                ? <small> <MsgLink id={rootLink.link}>Reply <i className="fa fa-angle-double-up" /></MsgLink></small>
+                ? <small> <MsgLink id={rootLink.link}>{t('msg.Reply')} <i className="fa fa-angle-double-up" /></MsgLink></small>
                 : '' }
             </div>
             <div className="audience">
@@ -389,7 +390,7 @@ export default class Card extends React.Component {
           <Content msg={msg} forceRaw={isViewingRaw||this.props.forceRaw} />
         </div>
         <div className="footer">
-          <div className="read-more" onClick={this.onClickExpand.bind(this)}>Read more</div>
+          <div className="read-more" onClick={this.onClickExpand.bind(this)}>{t('msg.ReadMore')}</div>
           <div className="flex-fill"/>
           <DigBtn onClick={()=>this.props.onToggleStar(msg)} isUpvoted={isUpvoted} upvoters={upvoters} />
         </div>
@@ -403,10 +404,10 @@ export default class Card extends React.Component {
                 <div><UserLink id={r.value.author} /> <ContentInline msg={r} limit={250} /></div>
               </div>
             }) }
-            { replies > 2 ? <div className="reply" style={{whiteSpace:'pre'}}>{ replies-2 } more replies { msg.hasUnread ? <strong>(new)</strong> : '' }</div> : '' }
+            { replies > 2 ? <div className="reply" style={{whiteSpace:'pre'}}>{ t('msg.MoreReplies', replies-2) } { msg.hasUnread ? <strong> {t('msg.new')}</strong> : '' }</div> : '' }
           </div>
         : '' }
-      <Modal className="center-block" isOpen={this.state.isFlagModalOpen} onClose={this.onCloseFlagModal.bind(this)} Form={FlagMsgForm} formProps={{msg: msg, onSubmit: this.onSubmitFlag.bind(this)}} nextLabel="Publish" />
+      <Modal className="center-block" isOpen={this.state.isFlagModalOpen} onClose={this.onCloseFlagModal.bind(this)} Form={FlagMsgForm} formProps={{msg: msg, onSubmit: this.onSubmitFlag.bind(this)}} nextLabel={t('msg.Publish')} />
     </div>
   }
 }

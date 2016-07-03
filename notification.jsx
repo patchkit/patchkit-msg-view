@@ -6,6 +6,7 @@ import { MsgLink, UserLink, UserPic } from 'patchkit-links'
 import NiceDate from 'patchkit-nicedate'
 import { Inline as MdInline } from 'patchkit-markdown'
 import Card from './card'
+import t from 'patchwork-translations'
 
 const INLINE_LENGTH_LIMIT = 100
 
@@ -109,7 +110,7 @@ export default class Notification extends React.Component {
     // we're going to assume this post is a reply, because root posts go down a different code-path
     const msg = this.props.msg
     const c = msg.value.content
-    const text = (c.text || 'this message')
+    const text = (c.text || t('msg.thisMessage'))
     return <span>
       <a className="subject" onClick={this.onSelect.bind(this)}>
         <i className="fa fa-comment-o" /> <MdInline md={text}/>
@@ -126,11 +127,11 @@ export default class Notification extends React.Component {
 
     const subject = (ssbref.isFeed(vote.link))
       ? <UserLink id={vote.link} />
-      : <a className="subject" onClick={this.onSelect.bind(this)}><MdInline md={(this.state.subjectMsg && this.state.subjectMsg.value.content && this.state.subjectMsg.value.content.text || 'this message')} /></a>
+      : <a className="subject" onClick={this.onSelect.bind(this)}><MdInline md={this.state.subjectMsg && this.state.subjectMsg.value.content && this.state.subjectMsg.value.content.text || t('msg.thisMessage')} /></a>
     
     const icon = (c.vote.value > 0) ? 'fa fa-hand-peace-o' : (c.vote.value === 0) ? 'fa fa-times'            : 'fa fa-flag'
-    const desc = (c.vote.value > 0) ? 'dug'                : (c.vote.value === 0) ? 'removed their vote for' : 'flagged'
-    const reason = (c.vote.reason) ? ('as '+c.vote.reason) : ''
+    const desc = (c.vote.value > 0) ? t('msg.dug')                : (c.vote.value === 0) ? t('msg.removedVote') : t('msg.flagged')
+    const reason = (c.vote.reason) ? t('msg.flaggedAsReason', {reason: c.vote.reason}) : ''
     return <span>
       <i className={icon} /> <UserLink id={msg.value.author} /> {desc} {subject} {reason}
     </span> 
@@ -140,9 +141,9 @@ export default class Notification extends React.Component {
     const msg = this.props.msg
     const c = msg.value.content
     const pid = mlib.link(c.contact).link
-    if (c.following === true) return <span><i className="fa fa-user-plus" /> <UserLink id={msg.value.author} /> followed <UserLink id={pid} /></span>
-    if (c.blocking === true) return <span><i className="fa fa-microphone-slash" /> <UserLink id={msg.value.author} /> blocked <UserLink id={pid} /></span>
-    if (c.following === false) return <span><i className="fa fa-user-times" /> <UserLink id={msg.value.author} /> unfollowed <UserLink id={pid} /></span>
+    if (c.following === true) return <span><i className="fa fa-user-plus" /> <UserLink id={msg.value.author} /> {t('msg.followed')} <UserLink id={pid} /></span>
+    if (c.blocking === true) return <span><i className="fa fa-microphone-slash" /> <UserLink id={msg.value.author} /> {t('msg.blocked')} <UserLink id={pid} /></span>
+    if (c.following === false) return <span><i className="fa fa-user-times" /> <UserLink id={msg.value.author} /> {t('msg.unfollowed')} <UserLink id={pid} /></span>
   }
 
   renderUnknown() {
@@ -150,6 +151,6 @@ export default class Notification extends React.Component {
     const c = msg.value.content
     if (c.type)
       return <span>{c.type} message</span>
-    return <span><i className="fa fa-lock" /> Encrypted message</span>
+    return <span><i className="fa fa-lock" /> {t('msg.EncryptedMsg')}</span>
   }
 }
