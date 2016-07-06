@@ -140,7 +140,9 @@ export default class Notification extends React.Component {
   renderContact() {
     const msg = this.props.msg
     const c = msg.value.content
-    const pid = mlib.link(c.contact).link
+    const contactLink = mlib.link(c.contact)
+    if (!contactLink) return
+    const pid = contactLink.link
     if (c.following === true) return <span><i className="fa fa-user-plus" /> <UserLink id={msg.value.author} /> {t('msg.followed')} <UserLink id={pid} /></span>
     if (c.blocking === true) return <span><i className="fa fa-microphone-slash" /> <UserLink id={msg.value.author} /> {t('msg.blocked')} <UserLink id={pid} /></span>
     if (c.following === false) return <span><i className="fa fa-user-times" /> <UserLink id={msg.value.author} /> {t('msg.unfollowed')} <UserLink id={pid} /></span>
