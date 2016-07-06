@@ -150,7 +150,7 @@ export default class Notification extends React.Component {
     const msg = this.props.msg
     const c = msg.value.content
     if (c.type)
-      return <span>{c.type} message</span>
+      return <span>{t('msg.typeMessage', {type: c.type})}</span>
     return <span><i className="fa fa-lock" /> {t('msg.EncryptedMsg')}</span>
   }
 }

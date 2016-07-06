@@ -31,7 +31,7 @@
     "patchkit-msg-content": "^1.0.0",
     "patchkit-nicedate": "^1.0.0",
     "patchwork-threads": "^2.2.0",
-    "patchwork-translations": "^1.0.0",
+    "patchwork-translations": "^1.1.0",
     "react": "^0.14.6",
     "react-clipboard.js": "^0.1.7",
     "ssb-msgs": "^5.2.0",
